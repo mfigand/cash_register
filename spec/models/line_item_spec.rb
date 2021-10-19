@@ -34,4 +34,10 @@ RSpec.describe LineItem, type: :model do
       end.to change(LineItem, :count).by(0)
     end
   end
+
+  describe '#total_price' do
+    it 'should return total_price' do
+      expect(line_item.total_price).to eq(line_item.quantity * line_item.product.price)
+    end
+  end
 end

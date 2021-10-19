@@ -1,0 +1,34 @@
+<h2>Basket</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Product</th>
+      <th>Price</th>
+      <th>Quantity</th>
+      <th>Total Price</th>
+      <th colspan="3">Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @basket.line_items.each do |line_item| %>
+      <tr>
+        <td><%= line_item.product.name %></td>
+        <td><%= number_to_currency(line_item.product.price) %></td>
+        <td><%= line_item.quantity %></td>
+        <td><%= number_to_currency(line_item.total_price)  %></td>
+        
+        <td><%= link_to "Delete", line_item_path(line_item), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+<h3>Sub total: <%= number_to_currency(@basket.sub_total) %></h3>
+
+<%= link_to "Empty basket", basket_path(@current_basket), method: :delete, data: {confirm: "Are you sure?"}%>
+<br>
+<br>
+<%= link_to "Products", products_path %>

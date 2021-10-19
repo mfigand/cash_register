@@ -16,6 +16,8 @@ RSpec.describe 'products/index', type: :view do
                price: '9.99'
              )
            ])
+
+    assign(:current_basket, create(:basket))
   end
 
   it 'renders a list of products' do

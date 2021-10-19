@@ -7,4 +7,8 @@ class LineItem < ApplicationRecord
   validates :quantity,
             presence: true,
             uniqueness: { scope: %i[basket product] }
+
+  def total_price
+    quantity * product.price
+  end
 end
