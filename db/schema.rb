@@ -10,11 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_19_153439) do
+ActiveRecord::Schema.define(version: 2021_10_19_154424) do
 
   create_table "baskets", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "line_items", force: :cascade do |t|
+    t.integer "quantity", null: false
+    t.integer "product_id"
+    t.integer "basket_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["basket_id"], name: "index_line_items_on_basket_id"
+    t.index ["product_id", "basket_id"], name: "line_items_product_id_basket_id", unique: true
+    t.index ["product_id"], name: "index_line_items_on_product_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -23,8 +34,8 @@ ActiveRecord::Schema.define(version: 2021_10_19_153439) do
     t.decimal "price", precision: 8, scale: 2, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["code"], name: "index_products_on_code"
-    t.index ["name"], name: "index_products_on_name"
+    t.index ["code"], name: "index_products_on_code", unique: true
+    t.index ["name"], name: "index_products_on_name", unique: true
     t.index ["price"], name: "index_products_on_price"
   end
 
