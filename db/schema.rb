@@ -10,11 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_19_154424) do
+ActiveRecord::Schema.define(version: 2021_10_20_144357) do
 
   create_table "baskets", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "discounts", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "priority", null: false
+    t.integer "quantity_condition", default: 0, null: false
+    t.integer "product_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name", "product_id"], name: "discounts_name_product_id", unique: true
+    t.index ["priority"], name: "index_discounts_on_priority"
+    t.index ["product_id"], name: "index_discounts_on_product_id"
+    t.index ["quantity_condition"], name: "index_discounts_on_quantity_condition"
   end
 
   create_table "line_items", force: :cascade do |t|
