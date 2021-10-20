@@ -7,8 +7,5 @@ Rails.application.routes.draw do
 
   resources :baskets, only: %i[show destroy]
 
-  resources :line_items, only: %i[create show update destroy]
-
-  post 'line_items/:id/add' => 'line_items#add', as: 'line_item_add'
-  post 'line_items/:id/subtract' => 'line_items#subtract', as: 'line_item_subtract'
+  resources :line_items, only: %i[create update destroy]
 end

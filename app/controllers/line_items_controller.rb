@@ -14,6 +14,17 @@ class LineItemsController < ApplicationController
     redirect_to basket_path(@current_basket)
   end
 
+  def update
+    @line_item = LineItem.find_by(id: params[:line_item_id])
+    service = LineItems::Update.call(line_item: @line_item,
+                                     operation: params[:operation],
+                                     quantity: params[:quantity].to_i)
+
+    flash[:error] = service.data[:error] if service.failure?
+
+    redirect_to basket_path(@current_basket)
+  end
+
   def destroy
     @line_item = LineItem.find(params[:id])
     @line_item.destroy

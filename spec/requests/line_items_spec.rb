@@ -37,6 +37,30 @@ RSpec.describe 'LineItems', type: :request do
     end
   end
 
+  describe 'PATCH /update' do
+    context 'with valid parameters' do
+      let(:update_params) do
+        { line_item_id: line_item.id,
+          operation: 'update',
+          quantity: 4 }
+      end
+
+      it 'updates the requested line_item' do
+        patch line_item_url(line_item), params: update_params
+        line_item.reload
+        expect(line_item.quantity).to eq(update_params[:quantity])
+        expect(response).to have_http_status(302)
+      end
+    end
+
+    context 'with invalid parameters' do
+      it 'renders a successful response' do
+        patch line_item_url(line_item), params: { line_item: invalid_attributes }
+        expect(flash[:error]).to eq("Error: undefined method `update!' for nil:NilClass")
+      end
+    end
+  end
+
   describe 'DELETE /destroy' do
     it 'destroys the requested line_item' do
       line_item

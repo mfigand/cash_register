@@ -1,34 +1,54 @@
 <h2>Basket</h2>
 
-<table>
-  <thead>
-    <tr>
-      <th>Product</th>
-      <th>Price</th>
-      <th>Quantity</th>
-      <th>Total Price</th>
-      <th colspan="3">Actions</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @basket.line_items.each do |line_item| %>
+<% if @basket.line_items.where('quantity > ?', 0).present? %>
+  <table>
+    <thead>
       <tr>
-        <td><%= line_item.product.name %></td>
-        <td><%= number_to_currency(line_item.product.price) %></td>
-        <td><%= line_item.quantity %></td>
-        <td><%= number_to_currency(line_item.total_price)  %></td>
-        
-        <td><%= link_to "Delete", line_item_path(line_item), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <th>Product</th>
+        <th>Price</th>
+        <th colspan="2">Quantity</th>
+        <th>Total Price</th>
+        <th colspan="3">Actions</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
 
+    <tbody>
+      <% @basket.line_items.each do |line_item| %>
+        <tr>
+          <td><%= line_item.product.name %></td>
+          <td><%= number_to_currency(line_item.product.price) %></td>
 
-<h3>Sub total: <%= number_to_currency(@basket.sub_total) %></h3>
+          <%= form_tag :line_item, :method => :put do %>
+            <td class="quantity" data-product=<%="#{line_item.product.id}" %>>
+              <%= number_field_tag :quantity, line_item.quantity, min: 0, step: 1 %>
+            </td>
 
-<%= link_to "Empty basket", basket_path(@current_basket), method: :delete, data: {confirm: "Are you sure?"}%>
-<br>
-<br>
+            <%= text_field_tag :line_item_id, line_item.id, class:'hidden' %>
+            <%= text_field_tag :operation, 'update', class:'hidden' %>
+            <%= text_field_tag :product_id, line_item.product.id, class:'hidden' %>
+
+            <td id=<%="update_quantity_product_#{line_item.product.id}"%> class='hidden' >
+              <%= submit_tag 'Save', class: 'btn' %>
+            </td>
+          <% end %>
+
+          <td><%= number_to_currency(line_item.total_price)  %></td>
+          <td><%= link_to "Delete", line_item_path(line_item), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <h3>Sub total: <%= number_to_currency(@basket.sub_total) %></h3>
+
+  <%= link_to "Empty basket", basket_path(@current_basket), method: :delete, data: {confirm: "Are you sure?"}%>
+  <br>
+  <br>
+
+<% else %>
+  <h2>
+    Your basket it's empty
+  </h2>
+<% end %>
+
 <%= link_to "Products", products_path %>

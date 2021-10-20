@@ -1,5 +1,5 @@
                                   Prefix Verb   URI Pattern                                                                                       Controller#Action
-                                         GET    /                                                                                                 products#index
+                                    root GET    /                                                                                                 products#index
                                 products GET    /products(.:format)                                                                               products#index
                                          POST   /products(.:format)                                                                               products#create
                              new_product GET    /products/new(.:format)                                                                           products#new
@@ -11,10 +11,9 @@
                                   basket GET    /baskets/:id(.:format)                                                                            baskets#show
                                          DELETE /baskets/:id(.:format)                                                                            baskets#destroy
                               line_items POST   /line_items(.:format)                                                                             line_items#create
-                               line_item GET    /line_items/:id(.:format)                                                                         line_items#show
+                               line_item PATCH  /line_items/:id(.:format)                                                                         line_items#update
+                                         PUT    /line_items/:id(.:format)                                                                         line_items#update
                                          DELETE /line_items/:id(.:format)                                                                         line_items#destroy
-                           line_item_add POST   /line_items/:id/add(.:format)                                                                     line_items#add
-                      line_item_subtract POST   /line_items/:id/subtract(.:format)                                                                line_items#subtract
            rails_postmark_inbound_emails POST   /rails/action_mailbox/postmark/inbound_emails(.:format)                                           action_mailbox/ingresses/postmark/inbound_emails#create
               rails_relay_inbound_emails POST   /rails/action_mailbox/relay/inbound_emails(.:format)                                              action_mailbox/ingresses/relay/inbound_emails#create
            rails_sendgrid_inbound_emails POST   /rails/action_mailbox/sendgrid/inbound_emails(.:format)                                           action_mailbox/ingresses/sendgrid/inbound_emails#create

@@ -19,8 +19,12 @@
         <td><%= product.name %></td>
         <td><%= product.code %></td>
         <td><%= product.price %></td>
-        <td><%= button_to "Add to basket", line_items_path(:product_id => product.id) %></td>
-        
+        <% line_item = @current_basket&.line_items&.find_by(product: product) %>
+        <% if line_item.present? %>
+          <td><%= button_to "Add to basket", line_item_path(operation: 'add', id: line_item.id, product_id: product.id), method: :put %></td>
+        <% else %>
+          <td><%= button_to "Add to basket", line_items_path(product_id: product.id) %></td>
+        <% end %>
         <td><%= link_to 'Show', product %></td>
         <td><%= link_to 'Edit', edit_product_path(product) %></td>
         <td><%= link_to 'Destroy', product, method: :delete, data: { confirm: 'Are you sure?' } %></td>
