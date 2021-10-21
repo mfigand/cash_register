@@ -17,11 +17,11 @@ module LineItems
     private
 
     def apply_discounts
-      discounts.map do |discount|
+      discounts.order(priority: :asc).map do |discount|
         service = discount.name
                           .constantize
                           .call(balance: balance,
-                                quantity_condition: discount.quantity_condition)
+                                quantity_condition: line_item.quantity)
         @_balance = service.data[:balance]
       end
     end
