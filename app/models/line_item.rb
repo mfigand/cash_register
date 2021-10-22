@@ -9,7 +9,7 @@ class LineItem < ApplicationRecord
             uniqueness: { scope: %i[basket product] }
 
   def total_price
-    LineItems::TotalPrice.call(line_item: self)
-                         .data[:total_price]
+    LineItems::Balance.call(line_item: self)
+                      .data[:balance][:total]
   end
 end

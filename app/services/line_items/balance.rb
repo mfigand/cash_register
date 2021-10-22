@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 module LineItems
-  class TotalPrice < Micro::Case
+  class Balance < Micro::Case
     attributes :line_item
 
     def call!
       ActiveRecord::Base.transaction do
         apply_discounts
 
-        Success result: { total_price: balance[:total] }
+        Success result: { balance: balance }
       rescue StandardError => e
         Failure result: { error: "Error: #{e.message}" }
       end

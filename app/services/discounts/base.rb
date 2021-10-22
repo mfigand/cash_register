@@ -13,7 +13,8 @@ module Discounts
     def new_balance
       { quantity: new_quantity,
         price: new_price,
-        total: new_total }
+        total: new_total,
+        discount: self.class.name.gsub('Discounts::', '').underscore }
     end
 
     def new_quantity
